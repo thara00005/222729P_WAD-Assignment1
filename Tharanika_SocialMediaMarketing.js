@@ -87,7 +87,7 @@ const advertisements = [
 ]
 
 
-// Creates Advertisements, pushes values into advertisements array. 
+// Creates Advertisements, pushes values into advertisements array
 function createAdvertisement(title, content, targetAudience, budget, dateOfLaunch, endDate, clientDetails) {
     const ad = {
         adId: advertisements.length + 1,
@@ -163,19 +163,23 @@ function manageAdvertisements() {
         ongoing: ongoingAds,
         upcoming: upcomingAds,
         completed: completedAds,
-        deleted: deletedAds
+        deleted: deletedAds,
+        all: advertisements
 
-    } 
+    }
 }
 // deletes ad by id
 function deleteAdvertisement(adId) {
 
+    // loops through advertisements array to retrieve ad with corresponding Id
     for (let i = 0; i < advertisements.length; i++) {
+
         if (advertisements[i].id === adId) {
             const ad = advertisements[i];
 
-            const currentDate = Date.now().toString();
-            const adEndDate = ad.endDate;
+            const currentDate = Date.now();
+            const adEndDate = new Date(ad.endDate).getTime;
+
             // if user wants to delete an advertisement, but the schduled endDate has yet to pass, it will alert user
             if (currentDate <= adEndDate) {
                 return {
@@ -186,7 +190,7 @@ function deleteAdvertisement(adId) {
             const userResponse = prompt(`Are you sure you want to delete the advertisement "${ad.title}"? (yes/no):`);
 
             if (userResponse === 'yes') {
-                // setting ad.id to one for it to be considered as deleted so it wont be logged when using manageAdvertisement function
+                // setting ad.id with value, -1 for it to be considered as deleted so it wont be logged when we use the manageAdvertisement function
                 ad.id = -1;
                 return {
                     message: `Advertisement "${ad.title}" for "${ad.clientDetails.name} has been deleted successfully ✅`
@@ -194,6 +198,7 @@ function deleteAdvertisement(adId) {
             }
             else {
                 return {
+                    // when user repsonses no, it cancel deletion process
                     message: "Advertisement deletion cancelled ❌"
                 };
             }
@@ -205,7 +210,7 @@ function deleteAdvertisement(adId) {
     }
 }
 
-// tracks ad's engagement by ad id
+// tracks advertisement's engagement by advertisement id
 function trackEngagement(adId) {
     for (let i = 0; i < advertisements.length; i++) {
         if (advertisements[i].id == adId) {
